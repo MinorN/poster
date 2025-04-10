@@ -7,6 +7,7 @@
     <li>支持 tsx</li>
     <li>eslint</li>
     <li>简单易用可扩展</li>
+    <a-button type="primary">Primary Button</a-button>
     <Hello msg="xxx" />
   </ul>
 </template>
