@@ -1,16 +1,16 @@
 import { createStore } from "vuex"
 import user, { UserProps } from "./user"
-import template, { TemplatesProps } from "./template"
+import templates, { TemplatesProps } from "./templates"
 
 export interface GlobalDataProps {
   user: UserProps
-  template: TemplatesProps
+  templates: TemplatesProps
 }
 
 const stroe = createStore({
   modules: {
     user,
-    template,
+    templates,
   },
 })
 

@@ -65,7 +65,7 @@ const testData = [
   },
 ]
 
-const template: Module<TemplatesProps, GlobalDataProps> = {
+const templates: Module<TemplatesProps, GlobalDataProps> = {
   state: {
     data: testData,
   },
@@ -77,4 +77,4 @@ const template: Module<TemplatesProps, GlobalDataProps> = {
   },
 }
 
-export default template
+export default templates

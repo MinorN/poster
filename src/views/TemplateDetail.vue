@@ -36,7 +36,7 @@
 import { computed, defineComponent } from "vue"
 import { useStore } from "vuex"
 import { GlobalDataProps } from "@/store/index"
-import { TemplateProps } from "@/store/template"
+import { TemplateProps } from "@/store/templates"
 import { useRoute } from "vue-router"
 export default defineComponent({
   setup() {
