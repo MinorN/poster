@@ -22,7 +22,9 @@
                 <div ref="container"></div>
               </div>
               <div class="use-button">
-                <a-button type="primary" size="large"> 使用模版 </a-button>
+                <router-link to="/editor">
+                  <a-button type="primary" size="large"> 使用模版 </a-button>
+                </router-link>
                 <a-button size="large"> 下载图片海报 </a-button>
               </div>
             </a-col>

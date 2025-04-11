@@ -58,7 +58,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.content-container {
+.homepage-container {
   background: #fff;
   padding: 0 24px 24px 30px;
   min-height: 85vh;
