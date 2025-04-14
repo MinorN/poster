@@ -1,31 +1,41 @@
 <template>
-  <component :is="tag" :style="styleProps" class="l-text-component">
+  <component
+    :is="tag"
+    :style="styleProps"
+    class="l-text-component"
+    @click="handleClick"
+  >
     {{ text }}
   </component>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue"
-import { pick } from "lodash-es"
+import { defineComponent } from "vue"
+import {
+  transformDefaultProps,
+  textDefaultProps,
+  textStylePropsNames,
+} from "@/defaultProps"
+import useComponentCommon from "@/hooks/useComponentCommon"
+const defaultProps = transformDefaultProps(textDefaultProps)
 
 export default defineComponent({
   name: "l-text",
   props: {
-    text: {
-      type: String,
-    },
-    fontSize: {
-      type: String,
-    },
     tag: {
       type: String,
       default: "div",
     },
+    ...defaultProps,
   },
   setup(props) {
-    const styleProps = computed(() => pick(props, ["fontSize"]))
+    const { styleProps, handleClick } = useComponentCommon(
+      props,
+      textStylePropsNames
+    )
     return {
       styleProps,
+      handleClick,
     }
   },
 })
@@ -43,5 +53,6 @@ button.l-text-component {
 .l-text-component {
   box-sizing: border-box;
   white-space: pre-wrap;
+  position: relative !important;
 }
 </style>
