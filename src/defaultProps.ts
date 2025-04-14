@@ -25,6 +25,8 @@ export const commonDefaultProps = {
   right: "0",
 }
 
+export type CommonComponentProps = typeof commonDefaultProps
+
 export const textDefaultProps = {
   // basic props - font styles
   text: "正文内容",
@@ -40,12 +42,12 @@ export const textDefaultProps = {
   ...commonDefaultProps,
 }
 
-export const transformDefaultProps = <T extends { [key: string]: any }>(
-  props: T
-) => {
+export type TextComponentProps = typeof textDefaultProps & CommonComponentProps
+
+export const transformDefaultProps = (props: TextComponentProps) => {
   return mapValues(props, (item) => {
     return {
-      type: item.constructor,
+      type: item.constructor as StringConstructor,
       default: item,
     }
   })
