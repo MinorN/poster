@@ -6,13 +6,13 @@
         <component
           v-if="value"
           :is="value.component"
-          :value="value.value"
+          :[value.valueProp]="value.value"
           v-bind="value.extraProps"
         >
           <template v-if="value.options">
             <component
-              :is="value.subComponent"
               v-for="(option, k) in value.options"
+              :is="value.subComponent"
               :key="k"
               :value="option.value"
             >
@@ -50,6 +50,7 @@ export default defineComponent({
             item.value = item.initalTransform
               ? item.initalTransform(value)
               : value
+            item.valueProp = item.valueProp ? item.value : "value"
             result[newKey] = item
           }
           return result

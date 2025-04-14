@@ -12,6 +12,7 @@ export interface PropToForm {
   }
   text?: string
   initalTransform?: (v: any) => any
+  valueProp?: string
 }
 
 export type PropsToForms = {
