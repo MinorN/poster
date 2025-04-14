@@ -32,9 +32,10 @@
         class="settings-panel"
       >
         组件属性
-        <pre>
-          {{ currentElement?.props }}
-        </pre>
+        <props-table
+          v-if="currentElement && currentElement.props"
+          :props="currentElement.props"
+        ></props-table>
       </a-layout-sider>
     </a-layout>
   </div>
@@ -49,12 +50,14 @@ import ComponentsList from "@/components/ComponentsList.vue"
 import { defaultTextTemplates } from "@/defaultTemplates"
 import EditWrapper from "@/components/EditWrapper.vue"
 import { ComponentData } from "@/store/editor"
+import PropsTable from "@/components/PropsTable.vue"
 
 export default defineComponent({
   components: {
     LText,
     ComponentsList,
     EditWrapper,
+    PropsTable,
   },
   setup() {
     const store = useStore<GlobalDataProps>()
