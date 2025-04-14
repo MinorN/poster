@@ -30,5 +30,6 @@ export const defaultTextTemplates = [
     width: "100px",
     tag: "button",
     textAlign: "center",
+    lineHeight: "1",
   },
 ]
