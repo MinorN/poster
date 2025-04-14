@@ -17,12 +17,24 @@ export const testComponents: ComponentData[] = [
   {
     id: uuidv4(),
     name: "l-text",
-    props: { text: "hello", fontSize: "20px", color: "red" },
+    props: {
+      text: "hello",
+      fontSize: "20px",
+      color: "red",
+      fontFamily: "",
+      textAlign: "left",
+    },
   },
   {
     id: uuidv4(),
     name: "l-text",
-    props: { text: "hello2", fontSize: "10px", fontWeight: "bold" },
+    props: {
+      text: "hello2",
+      fontSize: "10px",
+      fontWeight: "bold",
+      fontFamily: "",
+      textAlign: "center",
+    },
   },
   {
     id: uuidv4(),
@@ -30,8 +42,8 @@ export const testComponents: ComponentData[] = [
     props: {
       text: "hello3",
       fontSize: "15px",
-      actionType: "url",
-      url: "https://www.baidu.com",
+      fontFamily: "",
+      textAlign: "right",
     },
   },
 ]
