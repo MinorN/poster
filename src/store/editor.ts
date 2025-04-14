@@ -3,8 +3,8 @@ import { v4 as uuidv4 } from "uuid"
 import { GlobalDataProps } from "./index"
 import { TextComponentProps } from "@/defaultProps"
 
-interface ComponentData {
-  props: { [key: string]: any }
+export interface ComponentData {
+  props: Partial<TextComponentProps>
   id: string
   name: string
 }
@@ -49,6 +49,14 @@ const editor: Module<EditorProps, GlobalDataProps> = {
         props,
       }
       state.components.push(newComponent)
+    },
+    setActive(state, id: string) {
+      state.currentElement = id
+    },
+  },
+  getters: {
+    getCurrentElement: (state) => {
+      return state.components.find((item) => item.id === state.currentElement)
     },
   },
 }
