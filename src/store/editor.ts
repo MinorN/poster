@@ -1,7 +1,7 @@
 import { Module } from "vuex"
 import { v4 as uuidv4 } from "uuid"
 import { GlobalDataProps } from "./index"
-import { type TextComponentProps } from "@/defaultProps"
+import { TextComponentProps } from "@/defaultProps"
 
 interface ComponentData {
   props: { [key: string]: any }

@@ -17,7 +17,7 @@ export const commonDefaultProps = {
   borderRadius: "0",
   // shadow and opacity
   boxShadow: "0 0 0 #000000",
-  opacity: 1,
+  opacity: "1",
   // position and x,y
   position: "absolute",
   left: "0",
