@@ -23,6 +23,7 @@ export const testComponents: ComponentData[] = [
       color: "red",
       fontFamily: "",
       textAlign: "left",
+      lineHeight: "1.5",
     },
   },
   {
@@ -34,6 +35,7 @@ export const testComponents: ComponentData[] = [
       fontWeight: "bold",
       fontFamily: "",
       textAlign: "center",
+      lineHeight: "1.5",
     },
   },
   {
@@ -44,6 +46,7 @@ export const testComponents: ComponentData[] = [
       fontSize: "15px",
       fontFamily: "",
       textAlign: "right",
+      lineHeight: "1.5",
     },
   },
 ]
@@ -64,6 +67,14 @@ const editor: Module<EditorProps, GlobalDataProps> = {
     },
     setActive(state, id: string) {
       state.currentElement = id
+    },
+    updateComponent(state, { key, value }) {
+      const component = state.components.find(
+        (item) => item.id === state.currentElement
+      )
+      if (component) {
+        component.props[key as keyof TextComponentProps] = value
+      }
     },
   },
   getters: {
