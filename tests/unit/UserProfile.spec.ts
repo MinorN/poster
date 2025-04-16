@@ -48,6 +48,7 @@ describe("UserProfile component", () => {
   it("shoule render login button when login is false", async () => {
     expect(wrapper.get("div").text()).toBe("登录")
     await wrapper.get("div").trigger("click")
+    jest.runAllTimers()
     expect(message.success).toHaveBeenCalled()
     expect(store.state.user.isLogin).toBe(true)
     expect(store.state.user.userName).toBe("minorN")
