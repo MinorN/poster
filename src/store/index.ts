@@ -9,7 +9,7 @@ export interface GlobalDataProps {
   editor: EditorProps
 }
 
-const stroe = createStore({
+const store = createStore({
   modules: {
     user,
     templates,
@@ -17,4 +17,4 @@ const stroe = createStore({
   },
 })
 
-export default stroe
+export default store
