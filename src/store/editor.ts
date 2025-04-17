@@ -1,7 +1,7 @@
 import { Module } from "vuex"
 import { v4 as uuidv4 } from "uuid"
 import { GlobalDataProps } from "./index"
-import { TextComponentProps } from "@/defaultProps"
+import { TextComponentProps, textDefaultProps } from "@/defaultProps"
 
 export interface ComponentData {
   props: Partial<TextComponentProps>
@@ -18,9 +18,10 @@ export const testComponents: ComponentData[] = [
     id: uuidv4(),
     name: "l-text",
     props: {
+      ...textDefaultProps,
+      color: "#000000",
       text: "hello",
       fontSize: "20px",
-      color: "red",
       fontFamily: "",
       textAlign: "left",
       lineHeight: "1.5",
@@ -30,6 +31,7 @@ export const testComponents: ComponentData[] = [
     id: uuidv4(),
     name: "l-text",
     props: {
+      ...textDefaultProps,
       text: "hello2",
       fontSize: "10px",
       fontWeight: "bold",
@@ -42,6 +44,7 @@ export const testComponents: ComponentData[] = [
     id: uuidv4(),
     name: "l-text",
     props: {
+      ...textDefaultProps,
       text: "hello3",
       fontSize: "15px",
       fontFamily: "",
@@ -59,6 +62,7 @@ const editor: Module<EditorProps, GlobalDataProps> = {
   mutations: {
     addComponent(state, props: Partial<TextComponentProps>) {
       const newComponent: ComponentData = {
+        ...textDefaultProps,
         id: uuidv4(),
         name: "l-text",
         props,
