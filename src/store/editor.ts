@@ -62,7 +62,6 @@ const editor: Module<EditorProps, GlobalDataProps> = {
   mutations: {
     addComponent(state, props: Partial<TextComponentProps>) {
       const newComponent: ComponentData = {
-        ...textDefaultProps,
         id: uuidv4(),
         name: "l-text",
         props,

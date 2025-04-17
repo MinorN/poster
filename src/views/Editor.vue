@@ -52,6 +52,7 @@ import { defaultTextTemplates } from "@/defaultTemplates"
 import EditWrapper from "@/components/EditWrapper.vue"
 import { ComponentData } from "@/store/editor"
 import PropsTable from "../components/PropsTable.vue"
+import { textDefaultProps } from "@/defaultProps"
 
 export default defineComponent({
   components: {
@@ -64,7 +65,11 @@ export default defineComponent({
     const store = useStore<GlobalDataProps>()
     const components = computed(() => store.state.editor.components)
     const addItem = (data: any) => {
-      store.commit("addComponent", data)
+      const result = {
+        ...textDefaultProps,
+        ...data,
+      }
+      store.commit("addComponent", result)
     }
     const setActive = (id: string) => {
       store.commit("setActive", id)
