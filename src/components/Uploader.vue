@@ -1,32 +1,55 @@
 <template>
   <div class="file-upload">
-    <button @click="triggerUpload" :disabled="isUploading">
-      <span v-if="isUploading">正在上传</span>
-      <span v-else>点击上传</span>
-    </button>
+    <div class="upload-area" @click="triggerUpload">
+      <slot v-if="isUploading" name="loading">
+        <button disabled>正在上传</button>
+      </slot>
+      <slot
+        name="uploaded"
+        v-else-if="lastFileData && lastFileData.loaded"
+        :uploadedData="lastFileData.data"
+      >
+        <button>点击上传</button>
+      </slot>
+      <slot v-else name="default">
+        <button>点击上传</button>
+      </slot>
+    </div>
     <input
       type="file"
       ref="fileInput"
       :style="{ display: 'none' }"
       @change="handleFileChange"
     />
-    <ul>
+    <ul :class="`upload-list`">
       <li
         v-for="file in uploadedFiles"
         :key="file.uid"
         :class="`uploader-file upload-${file.status}`"
       >
+        <span v-if="file.status === 'loading'" class="file-icon">
+          <LoadingOutlined />
+        </span>
+        <span v-else class="file-icon"><FileOutlined /></span>
         <span class="filename">{{ file.name }}</span>
-        <button class="delete-icon" @click="removeFile(file.uid)">del</button>
+        <span class="delete-icon" @click="removeFile(file.uid)">
+          <DeleteOutlined />
+        </span>
       </li>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, ref } from "vue"
+import { computed, defineComponent, PropType, reactive, ref } from "vue"
+import { last } from "lodash-es"
 import axios from "axios"
 import { v4 as uuidv4 } from "uuid"
+import {
+  DeleteOutlined,
+  LoadingOutlined,
+  FileOutlined,
+} from "@ant-design/icons-vue"
 
 type UploadStaus = "ready" | "loading" | "success" | "error"
 
@@ -36,14 +59,24 @@ export interface UploadFile {
   name: string
   status: UploadStaus
   raw: File
+  resp?: any
 }
+type CheckUpload = (file: File) => boolean | Promise<File>
 
 export default defineComponent({
+  components: {
+    DeleteOutlined,
+    LoadingOutlined,
+    FileOutlined,
+  },
   props: {
     // 请求地址
     action: {
       type: String,
       required: true,
+    },
+    beforeUpload: {
+      type: Function as PropType<CheckUpload>,
     },
   },
   setup(props, context) {
@@ -53,6 +86,17 @@ export default defineComponent({
 
     const isUploading = computed(() => {
       return uploadedFiles.value.some((file) => file.status === "loading")
+    })
+
+    const lastFileData = computed(() => {
+      const lastFile = last(uploadedFiles.value)
+      if (lastFile) {
+        return {
+          loaded: lastFile.status === "success",
+          data: lastFile.resp,
+        }
+      }
+      return false
     })
 
     const triggerUpload = () => {
@@ -67,42 +111,67 @@ export default defineComponent({
       )
     }
 
+    const postFile = (file: File) => {
+      const formData = new FormData()
+      formData.append(file.name, file)
+      const fileObj = reactive<UploadFile>({
+        uid: uuidv4(),
+        size: file.size,
+        name: file.name,
+        status: "loading",
+        raw: file,
+      })
+      uploadedFiles.value.push(fileObj)
+      fileStatus.value = "loading"
+      axios
+        .post(props.action, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res: any) => {
+          fileObj.status = "success"
+          fileObj.resp = res.data
+          fileStatus.value = "success"
+        })
+        .catch((err: any) => {
+          fileObj.status = "error"
+          fileStatus.value = "error"
+        })
+        .finally(() => {
+          if (fileInput.value) {
+            fileInput.value.value = ""
+          }
+        })
+    }
+
     const handleFileChange = (e: Event) => {
       const target = e.target as HTMLInputElement
       const files = target.files
       if (files) {
         const uploadedFile = files[0]
-        const formData = new FormData()
-        formData.append(uploadedFile.name, uploadedFile)
-        const fileObj = reactive<UploadFile>({
-          uid: uuidv4(),
-          size: uploadedFile.size,
-          name: uploadedFile.name,
-          status: "loading",
-          raw: uploadedFile,
-        })
-        uploadedFiles.value.push(fileObj)
-        fileStatus.value = "loading"
-        axios
-          .post(props.action, formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          })
-          .then((res: any) => {
-            console.log(res.data)
-            fileObj.status = "success"
-            fileStatus.value = "success"
-          })
-          .catch((err: any) => {
-            fileObj.status = "error"
-            fileStatus.value = "error"
-          })
-          .finally(() => {
-            if (fileInput.value) {
-              fileInput.value.value = ""
-            }
-          })
+        if (props.beforeUpload) {
+          const result = props.beforeUpload(uploadedFile)
+          if (result && result instanceof Promise) {
+            result
+              .then((processedFile) => {
+                if (processedFile instanceof File) {
+                  postFile(processedFile)
+                } else {
+                  throw new Error("beforeUpload Promise must return a File")
+                }
+              })
+              .catch((e) => {
+                console.error(e)
+              })
+          } else if (result === true) {
+            postFile(uploadedFile)
+          } else {
+            console.error("beforeUpload must return a Promise or true")
+          }
+        } else {
+          postFile(uploadedFile)
+        }
       }
     }
 
@@ -114,6 +183,7 @@ export default defineComponent({
       uploadedFiles,
       isUploading,
       removeFile,
+      lastFileData,
     }
   },
 })
