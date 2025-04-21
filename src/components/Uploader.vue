@@ -31,6 +31,12 @@
         :key="file.uid"
         :class="`uploader-file upload-${file.status}`"
       >
+        <img
+          v-if="file.url && listType === 'picture'"
+          class="upload-list-thumbnail"
+          :src="file.url"
+          :alt="file.name"
+        />
         <span v-if="file.status === 'loading'" class="file-icon">
           <LoadingOutlined />
         </span>
@@ -56,6 +62,7 @@ import {
 } from "@ant-design/icons-vue"
 
 type UploadStaus = "ready" | "loading" | "success" | "error"
+type FileListType = "picture" | "text"
 
 export interface UploadFile {
   uid: string
@@ -64,6 +71,7 @@ export interface UploadFile {
   status: UploadStaus
   raw: File
   resp?: any
+  url?: string
 }
 type CheckUpload = (file: File) => boolean | Promise<File>
 
@@ -89,6 +97,10 @@ export default defineComponent({
     autoUpload: {
       type: Boolean,
       default: true,
+    },
+    listType: {
+      type: String as PropType<FileListType>,
+      default: "text",
     },
   },
   setup(props, context) {
@@ -157,6 +169,13 @@ export default defineComponent({
         status: "ready",
         raw: uploadedFile,
       })
+      if (props.listType === "picture") {
+        try {
+          fileObj.url = URL.createObjectURL(uploadedFile)
+        } catch (e) {
+          console.error("upload file error:", e)
+        }
+      }
       uploadedFiles.value.push(fileObj)
       if (props.autoUpload) {
         postFile(fileObj)
