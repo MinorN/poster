@@ -67,7 +67,7 @@ export default defineComponent({
   },
   emits: ["change"],
   setup(props, context) {
-    const finalProps = computed<PropsToForms>(() => {
+    const finalProps = computed(() => {
       return reduce(
         props.props,
         (result, value, key) => {
@@ -98,9 +98,10 @@ export default defineComponent({
           }
           return result
         },
-        {} as Required<{ [kee: string]: FormProps }>
+        {} as Required<{ [key: string]: FormProps }>
       )
     })
+    console.log("=finalProps,", finalProps.value)
     return {
       finalProps,
     }
