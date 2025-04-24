@@ -13,26 +13,51 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent, PropType } from "vue"
 import LText from "@/components/LText.vue"
 import StyledUploader from "./StyleUploader.vue"
-
+import { v4 as uuidv4 } from "uuid"
+import { ComponentData } from "@/store/editor"
+import {
+  TextComponentProps,
+  imageDefaultProps,
+  textDefaultProps,
+} from "@/defaultProps"
+import { message } from "ant-design-vue"
+import { UploadResp } from "@/extraType"
 export default defineComponent({
   name: "components-list",
   props: {
     list: {
-      type: Array,
+      type: Array as PropType<TextComponentProps[]>,
       required: true,
     },
   },
   emits: ["on-item-click"],
   components: { LText, StyledUploader },
   setup(props, context) {
-    const onItemClick = (data: any) => {
-      context.emit("on-item-click", data)
+    const onItemClick = (props: TextComponentProps) => {
+      const componentData: ComponentData = {
+        name: "l-text",
+        id: uuidv4(),
+        props: {
+          ...textDefaultProps,
+          ...props,
+        },
+      }
+      context.emit("on-item-click", componentData)
     }
-    const onImageUploaded = (data: any) => {
-      console.log(data)
+    const onImageUploaded = (resp: UploadResp) => {
+      const componentData: ComponentData = {
+        name: "l-image",
+        id: uuidv4(),
+        props: {
+          ...imageDefaultProps,
+        },
+      }
+      message.success("上传成功")
+      componentData.props.src = resp.data.url
+      context.emit("on-item-click", componentData)
     }
     return {
       onItemClick,

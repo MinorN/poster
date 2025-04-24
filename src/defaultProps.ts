@@ -1,4 +1,5 @@
 import { mapValues, without } from "lodash-es"
+// 通用的样式属性
 export const commonDefaultProps = {
   // actions
   actionType: "",
@@ -27,6 +28,7 @@ export const commonDefaultProps = {
 
 export type CommonComponentProps = typeof commonDefaultProps
 
+// 文字
 export const textDefaultProps = {
   // basic props - font styles
   text: "正文内容",
@@ -59,3 +61,23 @@ export const textStylePropsNames = without(
   "url",
   "text"
 )
+
+// 图片
+export const imageDefaultProps = {
+  src: "test.url",
+  ...commonDefaultProps,
+}
+
+export type ImageComponentProps = typeof imageDefaultProps
+export const imageStylePropsNames = without(
+  Object.keys(imageDefaultProps),
+  "src"
+)
+export const transformToComponentProps = <T extends {}>(props: T) => {
+  return mapValues(props, (item) => {
+    return {
+      type: (item as any).constructor as StringConstructor,
+      default: item,
+    }
+  })
+}

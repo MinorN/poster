@@ -1,12 +1,16 @@
 import { Module } from "vuex"
 import { v4 as uuidv4 } from "uuid"
 import { GlobalDataProps } from "./index"
-import { TextComponentProps, textDefaultProps } from "@/defaultProps"
+import {
+  TextComponentProps,
+  ImageComponentProps,
+  textDefaultProps,
+} from "@/defaultProps"
 
 export interface ComponentData {
-  props: Partial<TextComponentProps>
+  props: Partial<TextComponentProps & ImageComponentProps>
   id: string
-  name: string
+  name: "l-text" | "l-image"
 }
 
 export interface EditorProps {
@@ -60,13 +64,8 @@ const editor: Module<EditorProps, GlobalDataProps> = {
     currentElement: "",
   },
   mutations: {
-    addComponent(state, props: Partial<TextComponentProps>) {
-      const newComponent: ComponentData = {
-        id: uuidv4(),
-        name: "l-text",
-        props,
-      }
-      state.components.push(newComponent)
+    addComponent(state, component: ComponentData) {
+      state.components.push(component)
     },
     setActive(state, id: string) {
       state.currentElement = id
