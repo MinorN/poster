@@ -101,7 +101,6 @@ export default defineComponent({
         {} as Required<{ [key: string]: FormProps }>
       )
     })
-    console.log("=finalProps,", finalProps.value)
     return {
       finalProps,
     }

@@ -25,7 +25,7 @@
       :style="{ display: 'none' }"
       @change="handleFileChange"
     />
-    <ul :class="`upload-list`">
+    <ul :class="`upload-list`" v-if="showUploadList">
       <li
         v-for="file in uploadedFiles"
         :key="file.uid"
@@ -102,8 +102,13 @@ export default defineComponent({
       type: String as PropType<FileListType>,
       default: "text",
     },
+    showUploadList: {
+      type: Boolean,
+      default: true,
+    },
   },
-  setup(props, context) {
+  emits: ["success", "error", "change"],
+  setup(props, { emit }) {
     const fileInput = ref<null | HTMLInputElement>(null)
     const fileStatus = ref<UploadStaus>("ready")
     const uploadedFiles = ref<UploadFile[]>([])
@@ -150,10 +155,12 @@ export default defineComponent({
           file.status = "success"
           file.resp = res.data
           fileStatus.value = "success"
+          emit('success', { resp: res.data, file: file, list: uploadedFiles.value })
         })
         .catch((err: any) => {
           file.status = "error"
           fileStatus.value = "error"
+          emit('error', { error:err, file: file, list: uploadedFiles.value })
         })
         .finally(() => {
           if (fileInput.value) {

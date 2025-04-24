@@ -9,11 +9,13 @@
       <l-text v-bind="item"></l-text>
     </div>
   </div>
+  <StyledUploader @success="onImageUploaded"></StyledUploader>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue"
 import LText from "@/components/LText.vue"
+import StyledUploader from "./StyleUploader.vue"
 
 export default defineComponent({
   name: "components-list",
@@ -24,13 +26,17 @@ export default defineComponent({
     },
   },
   emits: ["on-item-click"],
-  components: { LText },
+  components: { LText, StyledUploader },
   setup(props, context) {
     const onItemClick = (data: any) => {
       context.emit("on-item-click", data)
     }
+    const onImageUploaded = (data: any) => {
+      console.log(data)
+    }
     return {
       onItemClick,
+      onImageUploaded,
     }
   },
 })
