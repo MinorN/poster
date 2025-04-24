@@ -6,7 +6,7 @@
     :beforeUpload="commonUploadCheck"
     @success="
       (data) => {
-        handleUploadSuccess(data.resp)
+        handleUploadSuccess(data.resp, data.file)
       }
     "
   >
@@ -32,7 +32,7 @@
 <script lang="ts">
 import { FileImageOutlined, LoadingOutlined } from "@ant-design/icons-vue"
 import { defineComponent } from "vue"
-import Uploader from "./Uploader.vue"
+import Uploader, { UploadFile } from "./Uploader.vue"
 import { commonUploadCheck } from "@/helper"
 export default defineComponent({
   components: {
@@ -43,8 +43,8 @@ export default defineComponent({
   props: {},
   emits: ["success"],
   setup(props, { emit }) {
-    const handleUploadSuccess = (resp: any) => {
-      emit("success", resp)
+    const handleUploadSuccess = (resp: any, file: UploadFile) => {
+      emit("success", { resp, file: file.raw })
     }
     return {
       commonUploadCheck,
