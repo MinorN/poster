@@ -1,5 +1,5 @@
 import { VNode } from "vue"
-import { TextComponentProps } from "@/defaultProps"
+import { AllComponentProps } from "m-poster-component"
 export interface PropToForm {
   component: string
   subComponent?: string
@@ -18,7 +18,7 @@ export interface PropToForm {
 }
 
 export type PropsToForms = {
-  [P in keyof TextComponentProps]?: PropToForm
+  [P in keyof AllComponentProps]?: PropToForm
 }
 
 const fontFamilyArr = [

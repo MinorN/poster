@@ -22,7 +22,7 @@ import {
   TextComponentProps,
   imageDefaultProps,
   textDefaultProps,
-} from "@/defaultProps"
+} from "m-poster-component"
 import { message } from "ant-design-vue"
 import { UploadResp } from "@/extraType"
 import { getImageDimensions } from "@/helper"

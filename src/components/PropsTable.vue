@@ -31,7 +31,7 @@ import { computed, defineComponent, PropType, render, VNode } from "vue"
 import { reduce } from "lodash-es"
 import { PropsToForms, mapPropsToForms } from "../propsMap"
 import RenderVnode from "./RenderVnode"
-import { TextComponentProps } from "@/defaultProps"
+import { TextComponentProps } from "m-poster-component"
 import ColorPicker from "./ColorPicker.vue"
 import IconSwitch from "./IconSwitch.vue"
 

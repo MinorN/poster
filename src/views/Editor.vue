@@ -46,7 +46,6 @@
 import { computed, defineComponent } from "vue"
 import { useStore } from "vuex"
 import { GlobalDataProps } from "@/store"
-import LText from "@/components/LText.vue"
 import ComponentsList from "@/components/ComponentsList.vue"
 import { defaultTextTemplates } from "@/defaultTemplates"
 import EditWrapper from "@/components/EditWrapper.vue"
@@ -55,7 +54,6 @@ import PropsTable from "../components/PropsTable.vue"
 
 export default defineComponent({
   components: {
-    LText,
     ComponentsList,
     EditWrapper,
     PropsTable,

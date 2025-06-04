@@ -5,12 +5,12 @@ import {
   TextComponentProps,
   ImageComponentProps,
   textDefaultProps,
-} from "@/defaultProps"
+} from "m-poster-component"
 
 export interface ComponentData {
   props: Partial<TextComponentProps & ImageComponentProps>
   id: string
-  name: "l-text" | "l-image"
+  name: "l-text" | "l-image" | "l-shape"
 }
 
 export interface EditorProps {
@@ -22,40 +22,39 @@ export const testComponents: ComponentData[] = [
     id: uuidv4(),
     name: "l-text",
     props: {
-      ...textDefaultProps,
-      color: "#000000",
       text: "hello",
       fontSize: "20px",
-      fontFamily: "",
+      color: "#000000",
+      lineHeight: "1",
       textAlign: "left",
-      lineHeight: "1.5",
+      fontFamily: "",
     },
   },
   {
     id: uuidv4(),
     name: "l-text",
     props: {
-      ...textDefaultProps,
       text: "hello2",
       fontSize: "10px",
       fontWeight: "bold",
+      lineHeight: "2",
+      textAlign: "left",
       fontFamily: "",
-      textAlign: "center",
-      lineHeight: "1.5",
     },
   },
   {
     id: uuidv4(),
     name: "l-text",
     props: {
-      ...textDefaultProps,
       text: "hello3",
       fontSize: "15px",
+      actionType: "url",
+      lineHeight: "3",
+      textAlign: "left",
       fontFamily: "",
-      textAlign: "right",
-      lineHeight: "1.5",
     },
   },
+  // { id: uuidv4(), name: 'l-image', props: { src: 'http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5f3e3a17c305b1070f455202.jpg', width: '100px' }},
 ]
 
 const editor: Module<EditorProps, GlobalDataProps> = {
