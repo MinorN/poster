@@ -18,43 +18,50 @@ export interface EditorProps {
   currentElement: string
 }
 export const testComponents: ComponentData[] = [
+  // {
+  //   id: uuidv4(),
+  //   name: "l-text",
+  //   props: {
+  //     text: "hello",
+  //     fontSize: "20px",
+  //     color: "#000000",
+  //     lineHeight: "1",
+  //     textAlign: "left",
+  //     fontFamily: "",
+  //   },
+  // },
+  // {
+  //   id: uuidv4(),
+  //   name: "l-text",
+  //   props: {
+  //     text: "hello2",
+  //     fontSize: "10px",
+  //     fontWeight: "bold",
+  //     lineHeight: "2",
+  //     textAlign: "left",
+  //     fontFamily: "",
+  //   },
+  // },
+  // {
+  //   id: uuidv4(),
+  //   name: "l-text",
+  //   props: {
+  //     text: "hello3",
+  //     fontSize: "15px",
+  //     actionType: "url",
+  //     lineHeight: "3",
+  //     textAlign: "left",
+  //     fontFamily: "",
+  //   },
+  // },
   {
     id: uuidv4(),
-    name: "l-text",
+    name: "l-image",
     props: {
-      text: "hello",
-      fontSize: "20px",
-      color: "#000000",
-      lineHeight: "1",
-      textAlign: "left",
-      fontFamily: "",
+      src: "http://asset.minorn.cn/3i5.jpg",
+      width: "100px",
     },
   },
-  {
-    id: uuidv4(),
-    name: "l-text",
-    props: {
-      text: "hello2",
-      fontSize: "10px",
-      fontWeight: "bold",
-      lineHeight: "2",
-      textAlign: "left",
-      fontFamily: "",
-    },
-  },
-  {
-    id: uuidv4(),
-    name: "l-text",
-    props: {
-      text: "hello3",
-      fontSize: "15px",
-      actionType: "url",
-      lineHeight: "3",
-      textAlign: "left",
-      fontFamily: "",
-    },
-  },
-  // { id: uuidv4(), name: 'l-image', props: { src: 'http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5f3e3a17c305b1070f455202.jpg', width: '100px' }},
 ]
 
 const editor: Module<EditorProps, GlobalDataProps> = {

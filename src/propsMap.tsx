@@ -128,4 +128,13 @@ export const mapPropsToForms: PropsToForms = {
     afterTransform: (e: boolean) => (e ? "underline" : "none"),
     extraProps: { iconName: "UnderlineOutlined", tip: "下划线" },
   },
+  src: {
+    component: "image-processer",
+  },
+  width: {
+    text: "宽度",
+    component: "a-input-number",
+    initalTransform: (v: string) => parseInt(v),
+    afterTransform: (e: any) => (e ? `${e}px` : ""),
+  },
 }

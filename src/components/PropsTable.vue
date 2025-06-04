@@ -34,6 +34,7 @@ import RenderVnode from "./RenderVnode"
 import { TextComponentProps } from "m-poster-component"
 import ColorPicker from "./ColorPicker.vue"
 import IconSwitch from "./IconSwitch.vue"
+import ImageProcesser from "./ImageProcesser.vue"
 
 interface FormProps {
   component: string
@@ -64,6 +65,7 @@ export default defineComponent({
     RenderVnode,
     ColorPicker,
     IconSwitch,
+    ImageProcesser,
   },
   emits: ["change"],
   setup(props, context) {

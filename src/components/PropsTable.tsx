@@ -1,7 +1,7 @@
 import { computed, defineComponent, PropType, VNode } from "vue"
 import { reduce } from "lodash"
 import { PropsToForms, mapPropsToForms } from "../propsMap"
-import { TextComponentProps } from "../defaultProps"
+import { AllComponentProps } from "m-poster-component"
 import { Input, InputNumber, Slider, Radio, Select } from "ant-design-vue"
 const mapToComponent = {
   "a-textarea": Input.TextArea,
@@ -32,7 +32,7 @@ export default defineComponent({
   name: "props-table",
   props: {
     props: {
-      type: Object as PropType<Partial<TextComponentProps>>,
+      type: Object as PropType<Partial<AllComponentProps>>,
       required: true,
     },
   },
@@ -42,7 +42,7 @@ export default defineComponent({
       return reduce(
         props.props,
         (result, value, key) => {
-          const newKey = key as keyof TextComponentProps
+          const newKey = key as keyof AllComponentProps
           const item = mapPropsToForms[newKey]
           if (item) {
             const {
