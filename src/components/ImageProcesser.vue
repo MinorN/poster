@@ -111,6 +111,13 @@ export default defineComponent({
         const { x, y, width, height } = cropData
         const cropperURL =
           baseImageUrl.value + `?imageMogr2/cut/${width}x${height}x${x}x${y}`
+        // cropper.getCroppedCanvas().toBlob((blob) => {
+        //   if (blob) {
+        //     const formData = new FormData()
+        //     formData.append("croppedImage", blob, "croppedImage.png")
+        //     // 这里可以添加上传逻辑，将formData发送到服务器
+        //   }
+        // })
         context.emit("change", cropperURL)
       }
       showModal.value = false

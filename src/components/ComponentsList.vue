@@ -30,7 +30,7 @@ export default defineComponent({
   name: "components-list",
   props: {
     list: {
-      type: Array as PropType<TextComponentProps[]>,
+      type: Array as PropType<Partial<TextComponentProps[]>>,
       required: true,
     },
   },

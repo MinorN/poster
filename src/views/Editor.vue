@@ -31,19 +31,39 @@
         style="background: #fff"
         class="settings-panel"
       >
-        组件属性
-        <props-table
-          v-if="currentElement && currentElement.props"
-          :props="currentElement.props"
-          @change="handleChange"
-        ></props-table>
+        <a-tabs type="card" v-model:activeKey="activePanel">
+          <a-tab-pane key="component" tab="属性设置" class="no-top-radius">
+            <div v-if="currentElement">
+              <props-table
+                v-if="!currentElement.isLocked"
+                :props="currentElement.props"
+                @change="handleChange"
+              ></props-table>
+              <div v-else>
+                <a-empty>
+                  <template #description>
+                    <p>该元素已被锁定，无法编辑</p>
+                  </template>
+                </a-empty>
+              </div>
+            </div>
+          </a-tab-pane>
+          <a-tab-pane key="layer" tab="图层设置">
+            <LayerList
+              :list="components"
+              :selectedId="currentElement && currentElement.id"
+              @change="handleChange"
+              @select="setActive"
+            ></LayerList>
+          </a-tab-pane>
+        </a-tabs>
       </a-layout-sider>
     </a-layout>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue"
+import { computed, defineComponent, ref } from "vue"
 import { useStore } from "vuex"
 import { GlobalDataProps } from "@/store"
 import ComponentsList from "@/components/ComponentsList.vue"
@@ -51,16 +71,23 @@ import { defaultTextTemplates } from "@/defaultTemplates"
 import EditWrapper from "@/components/EditWrapper.vue"
 import { ComponentData } from "@/store/editor"
 import PropsTable from "../components/PropsTable.vue"
+import LayerList from "@/components/LayerList.vue"
+
+export type TabType = "component" | "layer" | "page"
 
 export default defineComponent({
   components: {
     ComponentsList,
     EditWrapper,
     PropsTable,
+    LayerList,
   },
   setup() {
     const store = useStore<GlobalDataProps>()
     const components = computed(() => store.state.editor.components)
+    // 当前tab
+    const activePanel = ref<TabType>("component")
+
     const addItem = (component: any) => {
       store.commit("addComponent", component)
     }
@@ -82,6 +109,7 @@ export default defineComponent({
       addItem,
       setActive,
       handleChange,
+      activePanel,
     }
   },
 })
