@@ -20,6 +20,7 @@
               :id="component.id"
               :active="currentElement?.id === component.id"
               @setActive="setActive"
+              v-show="!component.isHidden"
             >
               <component :is="component.name" v-bind="component.props" />
             </edit-wrapper>
