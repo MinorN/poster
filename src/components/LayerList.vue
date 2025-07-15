@@ -16,6 +16,7 @@
       @click="handleClick(item.id)"
       draggable="true"
       @dragstart="onDragStart($event, item.id, index)"
+      @dragenter="onDragEnter($event, index)"
       :data-index="index"
     >
       <a-tooltip :title="item.isHidden ? '显示' : '隐藏'">
@@ -72,7 +73,7 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ["select", "change"],
+  emits: ["select", "change", "drop"],
   components: {
     EyeOutlined,
     EyeInvisibleOutlined,
@@ -85,24 +86,37 @@ export default defineComponent({
       currentDragging: "",
       currentIndex: -1,
     })
+    let start = -1
+    let end = -1
+
     const onDragStart = (e: DragEvent, id: string, index: number) => {
       dragData.currentDragging = id
       dragData.currentIndex = index
+      start = index
     }
     const onDrop = (e: DragEvent) => {
-      const currentEle = getParentElement(
-        e.target as HTMLElement,
-        "ant-list-item"
-      )
-      if (currentEle && currentEle.dataset.index) {
-        const moveIndex = parseInt(currentEle.dataset.index)
-        arrayMoveMutable(props.list, dragData.currentIndex, moveIndex)
-      }
+      // const currentEle = getParentElement(
+      //   e.target as HTMLElement,
+      //   "ant-list-item"
+      // )
+      // if (currentEle && currentEle.dataset.index) {
+      //   const moveIndex = parseInt(currentEle.dataset.index)
+      //   arrayMoveMutable(props.list, dragData.currentIndex, moveIndex)
+      // }
+      context.emit("drop", { start, end })
 
       dragData.currentDragging = ""
     }
     const onDragOver = (e: DragEvent) => {
       e.preventDefault()
+    }
+
+    const onDragEnter = (e: DragEvent, index: number) => {
+      if (index !== dragData.currentIndex) {
+        arrayMoveMutable(props.list, dragData.currentIndex, index)
+        dragData.currentIndex = index
+        end = index
+      }
     }
 
     const handleClick = (id: string) => {
@@ -124,6 +138,7 @@ export default defineComponent({
       dragData,
       onDrop,
       onDragOver,
+      onDragEnter,
     }
   },
 })
