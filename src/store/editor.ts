@@ -1,10 +1,16 @@
 import { Module } from "vuex"
 import { v4 as uuidv4 } from "uuid"
 import { GlobalDataProps } from "./index"
-import { TextComponentProps, ImageComponentProps } from "m-poster-component"
+import {
+  TextComponentProps,
+  ImageComponentProps,
+  textDefaultProps,
+  imageDefaultProps,
+  AllComponentProps,
+} from "m-poster-component"
 
 export interface ComponentData {
-  props: Partial<TextComponentProps & ImageComponentProps>
+  props: Partial<AllComponentProps>
   id: string
   name: "l-text" | "l-image" | "l-shape"
   isHidden?: boolean // 图层是否隐藏
@@ -21,6 +27,7 @@ export const testComponents: ComponentData[] = [
     id: uuidv4(),
     name: "l-text",
     props: {
+      ...textDefaultProps,
       text: "hello",
       fontSize: "20px",
       color: "#000000",
@@ -35,6 +42,7 @@ export const testComponents: ComponentData[] = [
     id: uuidv4(),
     name: "l-text",
     props: {
+      ...textDefaultProps,
       text: "hello2",
       fontSize: "10px",
       fontWeight: "bold",
@@ -49,6 +57,7 @@ export const testComponents: ComponentData[] = [
     id: uuidv4(),
     name: "l-text",
     props: {
+      ...textDefaultProps,
       text: "hello3",
       fontSize: "15px",
       actionType: "url",
@@ -64,6 +73,7 @@ export const testComponents: ComponentData[] = [
     name: "l-image",
     layerName: "图层4",
     props: {
+      ...imageDefaultProps,
       src: "http://asset.minorn.cn/3i5.jpg",
       width: "100px",
       position: "relative",

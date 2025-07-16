@@ -2,7 +2,7 @@
   <div class="props-table">
     <div v-for="(value, key) in finalProps" :key="key" class="prop-item">
       <span v-if="value.text" class="label">{{ value.text }}</span>
-      <div class="prop-component">
+      <div :class="`prop-component component-${value.component}`">
         <component
           v-if="value"
           :is="value.component"
@@ -31,8 +31,9 @@ import { computed, defineComponent, PropType, render, VNode } from "vue"
 import { reduce } from "lodash-es"
 import { PropsToForms, mapPropsToForms } from "../propsMap"
 import RenderVnode from "./RenderVnode"
-import { TextComponentProps } from "m-poster-component"
+import { TextComponentProps, AllComponentProps } from "m-poster-component"
 import ColorPicker from "./ColorPicker.vue"
+import ShadowPicker from "./ShadowPicker.vue"
 import IconSwitch from "./IconSwitch.vue"
 import ImageProcesser from "./ImageProcesser.vue"
 
@@ -57,7 +58,7 @@ export default defineComponent({
   name: "props-table",
   props: {
     props: {
-      type: Object as PropType<Partial<TextComponentProps>>,
+      type: Object as PropType<Partial<AllComponentProps>>,
       required: true,
     },
   },
@@ -66,6 +67,7 @@ export default defineComponent({
     ColorPicker,
     IconSwitch,
     ImageProcesser,
+    ShadowPicker,
   },
   emits: ["change"],
   setup(props, context) {
@@ -73,7 +75,7 @@ export default defineComponent({
       return reduce(
         props.props,
         (result, value, key) => {
-          const newKey = key as keyof TextComponentProps
+          const newKey = key as keyof AllComponentProps
           const item = mapPropsToForms[newKey]
           if (item) {
             const {
@@ -110,7 +112,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style>
 .prop-item {
   display: flex;
   margin-bottom: 10px;
@@ -121,5 +123,20 @@ export default defineComponent({
 }
 .prop-component {
   width: 70%;
+}
+.prop-item.no-text {
+  display: inline-block;
+  margin: 0 10px 0 0;
+}
+#item-fontWeight {
+  margin-left: 28%;
+}
+.component-a-select .ant-select {
+  width: 150px;
+}
+.prop-component.component-shadow-picker,
+.prop-component.component-image-processer,
+.prop-component.component-background-processer {
+  width: 100%;
 }
 </style>

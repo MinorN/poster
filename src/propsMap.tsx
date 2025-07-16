@@ -21,6 +21,14 @@ export type PropsToForms = {
   [P in keyof AllComponentProps]?: PropToForm
 }
 
+const defaultHandler = {
+  component: "a-input",
+  eventName: "change",
+  valueProp: "value",
+  intialTransform: (v: any) => v,
+  afterTransform: (e: any) => e,
+}
+
 const fontFamilyArr = [
   {
     text: "默认",
@@ -47,6 +55,12 @@ const fontFamilyOptions = fontFamilyArr.map((font) => {
     ) as VNode,
   }
 })
+
+const pxToNumberHandler: PropToForm = {
+  component: "a-input-number",
+  initalTransform: (v: string) => (v ? parseInt(v) : 0),
+  afterTransform: (e: number) => (e ? `${e}px` : ""),
+}
 
 export const mapPropsToForms: PropsToForms = {
   text: {
@@ -136,5 +150,92 @@ export const mapPropsToForms: PropsToForms = {
     component: "a-input-number",
     initalTransform: (v: string) => parseInt(v),
     afterTransform: (e: any) => (e ? `${e}px` : ""),
+  },
+  height: {
+    text: "高度",
+    ...pxToNumberHandler,
+  },
+  paddingLeft: {
+    ...pxToNumberHandler,
+    text: "左边距",
+  },
+  paddingRight: {
+    ...pxToNumberHandler,
+    text: "右边距",
+  },
+  paddingTop: {
+    ...pxToNumberHandler,
+    text: "上边距",
+  },
+  paddingBottom: {
+    ...pxToNumberHandler,
+    text: "下边距",
+  },
+  // commonComponentProps - border type
+  borderStyle: {
+    ...defaultHandler,
+    component: "a-select",
+    subComponent: "a-select-option",
+    text: "边框类型",
+    options: [
+      { value: "none", text: "无" },
+      { value: "solid", text: "实线" },
+      { value: "dashed", text: "破折线" },
+      { value: "dotted", text: "点状线" },
+    ],
+  },
+  borderColor: {
+    ...defaultHandler,
+    component: "color-picker",
+    text: "边框颜色",
+  },
+  borderWidth: {
+    ...pxToNumberHandler,
+    component: "a-slider",
+    text: "边框宽度",
+    extraProps: { min: 0, max: 20 },
+  },
+  borderRadius: {
+    ...pxToNumberHandler,
+    component: "a-slider",
+    text: "边框圆角",
+    extraProps: { min: 0, max: 200 },
+  },
+  // commonComponentProps - opacity and boxShadow
+  opacity: {
+    component: "a-slider",
+    text: "透明度",
+    initalTransform: (v: number) => (v ? v * 100 : 100),
+    afterTransform: (e: number) => e / 100,
+    extraProps: { min: 0, max: 100, reverse: true },
+  },
+  boxShadow: {
+    component: "shadow-picker",
+  },
+  // commonComponentProps - positions
+  left: {
+    ...pxToNumberHandler,
+    text: "X轴坐标",
+  },
+  top: {
+    ...pxToNumberHandler,
+    text: "Y轴坐标",
+  },
+  // commonComponentProps - actions and urls
+  // actions
+  actionType: {
+    ...defaultHandler,
+    component: "a-select",
+    subComponent: "a-select-option",
+    text: "点击",
+    options: [
+      { value: "", text: "无" },
+      { value: "to", text: "跳转到 URL" },
+    ],
+  },
+  url: {
+    ...defaultHandler,
+    afterTransform: (e: any) => e.target.value,
+    text: "链接",
   },
 }

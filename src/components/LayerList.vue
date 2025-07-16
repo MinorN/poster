@@ -3,6 +3,7 @@
     :list="list"
     class="ant-list-elements ant-list-bordered"
     gost-class="ghost"
+    item-key="id"
     handle=".handle"
   >
     <template #item="{ element }">
@@ -47,7 +48,7 @@
             handleChange(element.id, 'layerName', v)
           }
         "
-        ></InlineEdit>
+        />
         <a-tooltip title="拖动排序">
           <a-button shape="circle" class="handle">
             <template #icon>
